@@ -40,11 +40,14 @@ Google 페이지를 iframe으로 감싸거나 클릭을 가로채지 않습니�
 
 ## 개발 및 검증
 
+- 로컬 DB 준비(최초 1회, 마이그레이션 추가 시 다시 실행): npm run db:local
 - 개발: npm run dev
 - 타입 검사: npx tsc --noEmit
 - 단위 검증: node tests/manual-entry.mjs
 - 통합 검증(개발 서버 필요): node tests/manual-integration.mjs
 - 빌드: npm run build
+
+개발 서버는 `drizzle/`의 마이그레이션을 자동 적용하지 않습니다. `npm run db:local`을 실행하지 않으면 로컬 DB에 `entries` 테이블이 없어 기록 저장이 500 오류로 실패합니다. 이 명령은 `.wrangler/state`의 로컬 DB에만 적용하며 이미 적용한 마이그레이션은 건너뜁니다.
 
 JSON 내보내기로 기록을 백업할 수 있습니다. 실행 비밀값과 로컬 데이터는 소스 배포 파일에 포함하지 않습니다.
 
