@@ -1,0 +1,14 @@
+plugins { id 'com.android.application' }
+def signingProps=new Properties()
+def signingFile=rootProject.file('../.sites-runtime/android-signing/keystore.properties')
+if(signingFile.exists())signingProps.load(new FileInputStream(signingFile))
+android {
+ namespace 'com.momx1.tastenotes'
+ compileSdk 35
+ buildFeatures { buildConfig true }
+ defaultConfig { applicationId 'com.momx1.tastenotes'; minSdk 26; targetSdk 35; versionCode 3; versionName '1.2.0' }
+ signingConfigs { release { if(signingFile.exists()){ storeFile rootProject.file(signingProps['storeFile']); storePassword signingProps['storePassword']; keyAlias signingProps['keyAlias']; keyPassword signingProps['keyPassword'] } } }
+ buildTypes { release { signingConfig signingConfigs.release; minifyEnabled true; shrinkResources true; proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' } }
+ compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}
+dependencies { implementation 'androidx.webkit:webkit:1.12.1' }
